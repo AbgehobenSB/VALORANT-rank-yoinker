@@ -1,126 +1,194 @@
 <template>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap">
+  <div id="app">
+    <!-- Navigation Bar -->
+    <div id="nav">
+      <router-link to="/">Home</router-link>
+      <router-link to="/matchLoadouts">Match Loadouts</router-link>
+      <a @click="redirectToGithub" class="github">GitHub</a>
+      <a @click="redirectToDiscord" class="github">Discord</a>
+      <a @click="toggleThemeSelector">Themes</a>
+    </div>
 
+    <!-- Theme Selector -->
+    <div id="theme-selector" v-if="showThemeSelector">
+      <h3>Select a Theme</h3>
+      <button @click="setTheme('dark-neon')">Dark-Neon</button>
+      <button @click="setTheme('valorant-ui')">Clean Valorant-Inspired UI</button>
+      <button @click="setTheme('edgy-minimalist')">Edgy Minimalist</button>
+    </div>
 
-  <div id="nav">
-    <router-link to="/">Home</router-link>
-    <router-link to="/matchLoadouts">Match Loadouts</router-link>
-    <a @click="redirectToGithub" class="github">GitHub</a>
-    <a @click="redirectToDiscord" class="github">Discord</a>
-    <!-- <a @click="console.log('test')/> -->
+    <!-- Main Content -->
+    <router-view />
   </div>
-  <router-view/>
 </template>
-
 
 <script>
 export default {
-  name: 'App',
+  name: "App",
+  data() {
+    return {
+      currentTheme: "valorant-ui", // Default to Valorant-inspired UI
+      showThemeSelector: false,
+    };
+  },
   methods: {
     redirectToGithub() {
-      window.open('https://github.com/isaacKenyon/VALORANT-rank-yoinker')
+      window.open("https://github.com/isaacKenyon/VALORANT-rank-yoinker");
     },
     redirectToDiscord() {
-      window.open('https://discord.gg/HeTKed64Ka')
+      window.open("https://discord.gg/HeTKed64Ka");
     },
-  }
-}
+    toggleThemeSelector() {
+      this.showThemeSelector = !this.showThemeSelector;
+    },
+    setTheme(theme) {
+      this.currentTheme = theme;
+      this.applyTheme();
+    },
+    applyTheme() {
+      const body = document.body;
+      body.className = ""; // Reset all theme classes
+      body.classList.add(this.currentTheme);
+    },
+  },
+  mounted() {
+    this.applyTheme(); // Apply the default theme on load
+  },
+};
 </script>
 
-
-
 <style>
-#app {
-  font-family: "Inter";
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #151418;
-  margin-top: 60px;
-}
+/* General Reset */
 body {
-  position: relative;
   margin: 0;
   padding: 0;
-  background-color: var(--background);
-  /* background-image: url('./assets/PhoenixArtwork.png'); */
-  /* background-repeat: no-repeat; */
-  /* background-attachment: fixed; */
-  /* background-position: left; */
-  
-}
-.img {
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  margin-top: auto;
-  margin-bottom: auto;
-  width: 30%;
-  z-index: -1;
-  opacity: 0.5;
-}
-.phoenix {
-  left: 50px;
-  /* background-color: red; */
-}
-.killjoy {
-  right: 50px;
-  /* background-color: red; */
-}
-.logo {
-  position: relative;
-  top: 0;
-  margin-bottom: 25px;
-  width: 30vmin;
-  margin: 0, 0, 100px;
+  font-family: "Inter", sans-serif;
 }
 
+/* App Container */
+#app {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  height: 100vh;
+  text-align: center;
+  color: white;
+}
+
+/* Navigation Bar */
 #nav {
-  position: fixed;
-  top: 0;
-  z-index: 2;
-  height: 5%;
-  /* padding: 100px; */
-  /* list-style-type: none; */
-  margin: 0;
-  padding: 0;
   width: 100%;
-  text-align: left;
-  /* overflow: hidden; */
-  background-color: #111111;
-  /* box-sizing: border-box; */
+  background-color: var(--nav-background, #1e1e2f);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 0;
 }
 
 #nav a {
-  position: relative;
-  top: 30%;
-  /* bottom: 0; */
-  /* margin: auto; */
-  /* vertical-align: middle; */
-  padding: 1%;
+  color: var(--text-color, #ff4655);
   font-weight: bold;
-  color: #2c3e50;
-  /* display: block; */
-  color: white;
-  /* text-align: center; */
-  /* padding: 14px 16px; */
   text-decoration: none;
-  /* border-bottom: 2px solid #111111; */
+  margin: 0 15px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
 }
 
 #nav a.router-link-exact-active {
-  border-bottom: 1px solid #ff4655;
+  border-bottom: 2px solid var(--highlight-color, #ff4655);
 }
 
 #nav a:hover {
-  /* background-color: #ff4655; */
-  border-bottom: 1px solid #ff4655;
-  /* -webkit-box-shadow:inset 0px 0px 0px 1px #ff4655; */
-  /* -moz-box-shadow:inset 0px 0px 0px 1px #ff4655; */
-  /* box-shadow:inset 0px -10px 1px 0px #ff4655; */
+  color: var(--hover-text-color, #e0e0e0);
+  border-bottom: 2px solid var(--highlight-color, #ff4655);
 }
 
-.github {
+/* Theme Selector */
+#theme-selector {
+  position: fixed;
+  top: 15%;
+  background: var(--modal-background, rgba(30, 30, 47, 0.9));
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 15px var(--box-shadow-color, rgba(255, 70, 85, 0.5));
+  color: var(--text-color, white);
+  text-align: center;
+  z-index: 10;
+}
+
+#theme-selector button {
+  background: var(--button-background, transparent);
+  border: 2px solid var(--text-color, white);
+  color: var(--text-color, white);
+  padding: 10px 20px;
+  margin: 10px;
+  border-radius: 5px;
   cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+#theme-selector button:hover {
+  background: var(--highlight-color, #ff4655);
+  color: var(--hover-text-color, black);
+}
+
+/* Themes */
+body.dark-neon {
+  --nav-background: #0d0f1a;
+  --text-color: #00ffcc;
+  --highlight-color: #00ffcc;
+  --modal-background: rgba(13, 15, 26, 0.95);
+  --box-shadow-color: rgba(0, 255, 204, 0.5);
+  --button-background: #002244;
+  --hover-text-color: #002b36;
+  background: linear-gradient(135deg, #001a33, #000d1a);
+  color: #00ffcc; /* Bright cyan for contrast */
+  text-shadow: 0 0 5px #00ffcc;
+}
+
+body.valorant-ui {
+  --nav-background: #1e1e2f;
+  --text-color: #ff4655;
+  --highlight-color: #ff4655;
+  --modal-background: rgba(30, 30, 47, 0.9);
+  --box-shadow-color: rgba(255, 70, 85, 0.5);
+  --button-background: #444;
+  --hover-text-color: white;
+  background: linear-gradient(135deg, #1e1e2f, #121212);
+  color: #ff4655;
+}
+
+body.edgy-minimalist {
+  --nav-background: black;
+  --text-color: white;
+  --highlight-color: white;
+  --modal-background: rgba(0, 0, 0, 0.9);
+  --box-shadow-color: rgba(255, 255, 255, 0.2);
+  --button-background: #000;
+  --hover-text-color: #c0c0c0;
+  background: linear-gradient(135deg, #121212, #000000);
+  color: #e0e0e0; /* Softer white for reduced strain */
+}
+/* Theme Variables */
+body.dark-neon {
+  --modal-background: #0d0f1a;
+  --player-card-bg: #222;
+  --text-primary: #00ffcc;
+  --border-color: #444;
+}
+
+body.valorant-ui {
+  --modal-background: #1e1e2f;
+  --player-card-bg: #2c2c3f;
+  --text-primary: #ff4655;
+  --border-color: #555;
+}
+
+body.edgy-minimalist {
+  --modal-background: black;
+  --player-card-bg: #222;
+  --text-primary: white;
+  --border-color: #666;
 }
 </style>

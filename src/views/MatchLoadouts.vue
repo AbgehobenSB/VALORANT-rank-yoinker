@@ -1,7 +1,10 @@
 <template>
     <img alt="vRY Logo" src="../assets/logo.png" class="logo">
-  <img src="../assets/PhoenixArtwork.png" alt="Phoenix" class="img phoenix">
-  <img src="../assets/KilljoyArtwork.png" alt="Killjoy" class="img killjoy">
+    <div id="characters">
+        <img src="../assets/PhoenixArtwork.png" alt="Phoenix" class="img-phoenix">
+        <img src="../assets/KilljoyArtwork.png" alt="Killjoy" class="img-killjoy">
+    </div>
+
   <div class="lastUpdateDiv">
     <span class="lastUpdate">Last updated: </span>
     <span v-if="showTime" class="lastUpdateValue">{{ lastUpdateString }}</span>
@@ -148,6 +151,33 @@ export default {
 </script>
 
 <style>
+    #characters {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none; /* Allow interactions with foreground elements */
+        z-index: 1;
+    }
+    .img-phoenix {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 20%;
+        height: auto;
+        opacity: 0.5; /* Add transparency */
+    }
+    .img-killjoy {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        width: 20%;
+        height: auto;
+        opacity: 0.5; /* Add transparency */
+    }
+
+
     .noMatch {
         display: flex;
         flex-direction: column;
@@ -159,7 +189,7 @@ export default {
     }
 
     .lastUpdateDiv {
-        width: 22%;
+        width: 60%;
         text-align: center;
         left: 0;
         right: 0;

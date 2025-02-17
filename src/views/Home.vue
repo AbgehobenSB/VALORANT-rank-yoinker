@@ -1,16 +1,23 @@
 <template>
+  <h1>Valorant Rank Yoinker</h1>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
+    <!-- Logo Section -->
+     
+    <div class="logo-container">
+      <img class="logo" alt="Vue logo" src="../assets/logo.png">
+    </div>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-
 export default {
   name: 'Home',
-  components: {
-    
-  }
-}
+};
 </script>
+
+<style>
+.logo{
+  top:0;
+  margin:0;
+}
+</style>
